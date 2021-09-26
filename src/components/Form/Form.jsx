@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/actions';
-
-import PropTypes from 'prop-types';
 import s from './Form.module.css';
 
-function Form({ onSubmit }) {
+export default function Form() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const dispatch = useDispatch();
 
   const handleInput = event => {
     const { name, value } = event.currentTarget;
@@ -19,10 +18,12 @@ function Form({ onSubmit }) {
   };
   const handleSubmit = event => {
     event.preventDefault();
-    onSubmit({
-      name,
-      number,
-    });
+    dispatch(
+      addContact({
+        name,
+        number,
+      }),
+    );
     reset();
   };
 
@@ -65,14 +66,3 @@ function Form({ onSubmit }) {
     </form>
   );
 }
-
-Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = dispatch => ({
-  onSubmit: value => {
-    dispatch(addContact(value));
-  },
-});
-export default connect(null, mapDispatchToProps)(Form);
