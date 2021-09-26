@@ -1,17 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteContact } from '../../redux/actions';
+import { getVisibleContacts } from '../../redux/selectors';
 import s from './Contacts.module.css';
 
 export default function Contacts() {
-  const getVisibleContacts = (items, filter) => {
-    return items.filter(({ name }) => name.toLowerCase().includes(filter));
-  };
-
-  const contactsItem = useSelector(state => {
-    const { items, filter } = state.contacts;
-    return getVisibleContacts(items, filter);
-  });
+  const contactsItem = useSelector(getVisibleContacts);
   const dispatch = useDispatch();
 
   if (contactsItem) {
