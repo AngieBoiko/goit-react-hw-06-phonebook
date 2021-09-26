@@ -1,8 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import s from "./Filter.module.css";
+import React from 'react';
+import { connect } from 'react-redux';
+import { filterContact } from '../../redux/actions';
+import PropTypes from 'prop-types';
+import s from './Filter.module.css';
 
-export default function Filter({ value, onChange }) {
+function Filter({ value, onChange }) {
   return (
     <div className={s.filterWrapper}>
       <label className={s.filterLabel}>
@@ -19,6 +21,16 @@ export default function Filter({ value, onChange }) {
   );
 }
 Filter.propTypes = {
-  value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = state => ({
+  value: state.contacts.filter,
+});
+const mapDispatchToProps = dispatch => ({
+  onChange: e => {
+    dispatch(filterContact(e.target.value));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { addContact } from '../../redux/actions';
+
 import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
 import s from './Form.module.css';
 
 function Form({ onSubmit }) {
@@ -19,7 +21,6 @@ function Form({ onSubmit }) {
     event.preventDefault();
     onSubmit({
       name,
-      id: uuidv4(),
       number,
     });
     reset();
@@ -64,7 +65,14 @@ function Form({ onSubmit }) {
     </form>
   );
 }
-export default Form;
+
 Form.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = dispatch => ({
+  onSubmit: value => {
+    dispatch(addContact(value));
+  },
+});
+export default connect(null, mapDispatchToProps)(Form);
