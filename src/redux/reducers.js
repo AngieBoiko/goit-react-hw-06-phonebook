@@ -15,7 +15,6 @@ const items = (state = contactsInitialState.items, { type, payload }) => {
         window.alert(`${payload.name} is already in contacts.`);
         return state;
       } else {
-        localStorage.setItem('Contacts', JSON.stringify(payload));
         return [...state, payload];
       }
 
